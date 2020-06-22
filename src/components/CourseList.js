@@ -15,7 +15,7 @@ const CourseList = ({ courses }) => (
         return (
           <tr key={course.id}>
             <td>{course.title}</td>
-            <td>{course.authorId}</td>
+            <td>{course.authorName}</td>
             <td>{course.category}</td>
           </tr>
         );

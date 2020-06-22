@@ -44,7 +44,7 @@ const courses = [
 ];
 
 const authors = [
-  { id: 1, name: 'Krunal Patel' },
+  { id: 1, name: 'Bob Smith' },
   { id: 2, name: 'John Smith' },
 ];
 
