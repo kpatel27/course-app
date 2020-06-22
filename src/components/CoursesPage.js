@@ -2,47 +2,22 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import * as courseActions from '../redux/actions/courseActions';
+import { bindActionCreators } from 'redux';
+import CourseList from './CourseList';
 
 class CoursesPage extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      course: {
-        title: '',
-      },
-    };
+  componentDidMount() {
+    this.props.actions
+      .loadCourses()
+      .catch((error) => alert('Loading courses failed' + error));
   }
-
-  handleChange = (e) => {
-    const course = { ...this.state.course, title: e.target.value };
-    this.setState({ course });
-  };
-
-  handleFormSubmit = (e) => {
-    e.preventDefault();
-    this.props.dispatch(courseActions.createCourse(this.state.course));
-  };
-
-  displayCourses = () => {
-    return this.props.courses.map((course, idx) => (
-      <div key={idx}>{course.title}</div>
-    ));
-  };
 
   render() {
     return (
-      <form onSubmit={this.handleFormSubmit}>
+      <div>
         <h2>Courses</h2>
-        <h3>Add New Course</h3>
-        <input
-          type='text'
-          value={this.state.course.title}
-          onChange={this.handleChange}
-        />
-        <input type='submit' value='Add' />
-        {this.displayCourses()}
-      </form>
+        <CourseList courses={this.props.courses} />
+      </div>
     );
   }
 }
@@ -53,8 +28,14 @@ const mapStateToProps = (state) => {
   };
 };
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    actions: bindActionCreators(courseActions, dispatch),
+  };
+};
+
 CoursesPage.propTypes = {
   dispatch: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps)(CoursesPage);
+export default connect(mapStateToProps, mapDispatchToProps)(CoursesPage);
